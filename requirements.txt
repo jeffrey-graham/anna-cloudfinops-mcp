@@ -1,0 +1,4 @@
+# Zero external dependencies required for stdlib server & test suite!
+# Optional FastAPI acceleration when deployed in containerized ASGI environments:
+fastapi>=0.110.0
+uvicorn>=0.29.0

@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "app_id": "anna-cloudfinops-guardian",
+  "name": "Anna CloudFinOps & API Spend Guardian",
+  "tagline": "Autonomous LLM Token, API & Cloud Spend Auditor, Anomaly Detector, and Smart Model-Routing Optimizer for Anna AI OS",
+  "version": "1.0.0",
+  "category": "Developer Tools & FinOps",
+  "runtime": {
+    "type": "web_and_mcp",
+    "entrypoint": "python3 src/server.py",
+    "http_port": 8090,
+    "mcp_endpoint": "/mcp",
+    "protocol_version": "2024-11-05"
+  },
+  "mcp_tools": [
+    "finops_audit_spend",
+    "finops_detect_anomalies",
+    "finops_optimize_routing",
+    "finops_evaluate_budget_policy"
+  ]
+}

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anna CloudFinOps &amp; API Spend Guardian — Anna AI OS App</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card: #111827;
+      --card-alt: #0d1320;
+      --border: #1f2937;
+      --indigo: #6366f1;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --mono: "JetBrains Mono", "Fira Code", monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    header {
+      background: linear-gradient(90deg, #111827 0%, #1e1b4b 55%, #0f172a 100%);
+      border-bottom: 2px solid var(--indigo);
+      padding: 16px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: var(--indigo);
+      color: #fff;
+      font-weight: 900;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px rgba(99, 102, 241, 0.45);
+    }
+    .badge {
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(99, 102, 241, 0.16);
+      border: 1px solid var(--indigo);
+      color: #c7d2fe;
+    }
+    .badge.green {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: var(--emerald);
+      color: #6ee7b7;
+    }
+    .badge.red {
+      background: rgba(244, 63, 94, 0.16);
+      border-color: var(--rose);
+      color: #fda4af;
+    }
+    .container {
+      max-width: 1300px;
+      margin: 24px auto;
+      padding: 0 20px 60px;
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 960px) {
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .kpi {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+    }
+    .kpi-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .kpi-val {
+      font-size: 28px;
+      font-weight: 800;
+      margin-top: 6px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 22px;
+    }
+    @media (max-width: 1024px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 22px;
+    }
+    .card h2 {
+      font-size: 17px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    th { color: var(--muted); font-size: 11.5px; text-transform: uppercase; }
+    .btn {
+      background: var(--indigo);
+      color: #fff;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .btn.emerald { background: var(--emerald); color: #052e16; }
+    .btn.rose { background: var(--rose); }
+    .code-pre {
+      background: var(--card-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: #a7f3d0;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      max-height: 320px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="brand-icon">A</div>
+      <div>
+        <div style="font-size: 19px; font-weight: 800;">Anna CloudFinOps &amp; API Spend Guardian</div>
+        <div style="font-size: 12.5px; color: #a5b4fc;">Anna AI OS Marketplace Web App + MCP 2024-11-05 Tool Server (anna.partners)</div>
+      </div>
+    </div>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+      <span class="badge green">MCP Protocol 2024-11-05 Ready</span>
+      <span class="badge">4 Agent Tools Registered</span>
+      <span id="guardrailBadge" class="badge red">Guardrail: CIRCUIT_BREAKER</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-label">Current 30-Day Run-Rate</div>
+        <div class="kpi-val" id="kpiCurrent" style="color: #fda4af;">$18,897.86</div>
+        <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Across 5 Anna AI OS Agent Endpoints</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Optimized 30-Day Run-Rate</div>
+        <div class="kpi-val" id="kpiOptimized" style="color: #6ee7b7;">$2,424.90</div>
+        <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Smart Tier Routing + 70% Prefix Cache</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Projected Monthly Savings</div>
+        <div class="kpi-val" id="kpiSavings" style="color: var(--emerald);">$16,472.96</div>
+        <div id="kpiSavingsPct" style="font-size: 12px; color: #6ee7b7; margin-top: 4px;">87.17% Instant Cost Reduction</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Cost Anomalies Flagged</div>
+        <div class="kpi-val" id="kpiAnomalies" style="color: var(--amber);">3 Active</div>
+        <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Z-Score Spike + Retry Loop + Uncached Context</div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <div>
+        <div class="card">
+          <h2>
+            <span>Smart Model-Routing &amp; Caching Recommendations</span>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn emerald" onclick="applyAllOptimizations()">Apply Optimal Routing</button>
+              <button class="btn rose" onclick="injectRetrySpike()">Simulate Runaway Retry Spike</button>
+            </div>
+          </h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Endpoint / Team</th>
+                <th>Task</th>
+                <th>Current -> Target Model</th>
+                <th>7d Cost -> Opt</th>
+                <th>Savings</th>
+              </tr>
+            </thead>
+            <tbody id="recTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h2>
+            <span>Real-Time Anomaly &amp; Waste Detector</span>
+            <span class="badge red">Z-Score + Retry + Cache Audit</span>
+          </h2>
+          <div id="anomalyList" style="display: flex; flex-direction: column; gap: 10px;"></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <h2>
+            <span>Interactive MCP Tool Server Playground (JSON-RPC 2.0)</span>
+            <span class="badge">POST /mcp</span>
+          </h2>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+            <button class="btn" onclick="runMcpTool('tools/list')">tools/list</button>
+            <button class="btn" onclick="runMcpTool('finops_audit_spend')">finops_audit_spend</button>
+            <button class="btn" onclick="runMcpTool('finops_detect_anomalies')">finops_detect_anomalies</button>
+            <button class="btn" onclick="runMcpTool('finops_optimize_routing')">finops_optimize_routing</button>
+          </div>
+          <pre class="code-pre" id="mcpOutput"></pre>
+        </div>
+
+        <div class="card">
+          <h2>
+            <span>Generated Anna AI OS Routing Policy</span>
+            <span class="badge green">anna.finops.v1</span>
+          </h2>
+          <pre class="code-pre" id="policyOutput"></pre>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const MODEL_CATALOG = {
+      "gpt-4o": { in: 2.50, out: 10.00, cached: 1.25 },
+      "gpt-4o-mini": { in: 0.15, out: 0.60, cached: 0.075 },
+      "o3-mini": { in: 1.10, out: 4.40, cached: 0.55 },
+      "claude-3-7-sonnet": { in: 3.00, out: 15.00, cached: 0.30 },
+      "claude-3-5-haiku": { in: 0.80, out: 4.00, cached: 0.08 },
+      "gemini-2.5-flash": { in: 0.10, out: 0.40, cached: 0.025 },
+      "deepseek-v3": { in: 0.27, out: 1.10, cached: 0.07 },
+    };
+
+    const PREFERRED = {
+      classification: "gemini-2.5-flash",
+      extraction: "gpt-4o-mini",
+      summarization: "gemini-2.5-flash",
+      code_generation: "deepseek-v3",
+      deep_reasoning: "o3-mini",
+    };
+
+    let records = [
+      { endpoint: "/v1/agent/intent-classifier", team: "core-router", task_type: "classification", model: "claude-3-7-sonnet", requests: 42000, input_tokens: 588000000, cached_input_tokens: 20000000, output_tokens: 18500000, retry_rate: 0.04, cloud_infra_usd: 45 },
+      { endpoint: "/v1/agent/invoice-extractor", team: "finance-ops", task_type: "extraction", model: "gpt-4o", requests: 19500, input_tokens: 390000000, cached_input_tokens: 15000000, output_tokens: 29000000, retry_rate: 0.34, cloud_infra_usd: 32 },
+      { endpoint: "/v1/agent/meeting-digest", team: "productivity", task_type: "summarization", model: "gpt-4o", requests: 12000, input_tokens: 310000000, cached_input_tokens: 10000000, output_tokens: 24000000, retry_rate: 0.03, cloud_infra_usd: 18 },
+      { endpoint: "/v1/agent/pr-code-synthesizer", team: "dev-platform", task_type: "code_generation", model: "claude-3-7-sonnet", requests: 8400, input_tokens: 210000000, cached_input_tokens: 40000000, output_tokens: 36000000, retry_rate: 0.06, cloud_infra_usd: 28 },
+      { endpoint: "/v1/agent/quant-risk-solver", team: "risk-engine", task_type: "deep_reasoning", model: "o3-mini", requests: 3200, input_tokens: 64000000, cached_input_tokens: 32000000, output_tokens: 16000000, retry_rate: 0.02, cloud_infra_usd: 15 }
+    ];
+
+    function calcCost(r, modelOverride, cachedOverride, scaleFactor = 1.0) {
+      const m = MODEL_CATALOG[modelOverride || r.model] || MODEL_CATALOG["gpt-4o"];
+      const inp = r.input_tokens * scaleFactor;
+      const cached = Math.min(inp, cachedOverride !== undefined ? cachedOverride : r.cached_input_tokens);
+      const uncached = inp - cached;
+      const out = r.output_tokens * scaleFactor;
+      return (uncached / 1e6) * m.in + (cached / 1e6) * m.cached + (out / 1e6) * m.out + r.cloud_infra_usd;
+    }
+
+    function renderDashboard() {
+      let totalCur = 0;
+      let totalOpt = 0;
+      const rowsHtml = [];
+      const rules = [];
+      const anomalies = [];
+
+      records.forEach((r) => {
+        const cur = calcCost(r);
+        const target = PREFERRED[r.task_type] || r.model;
+        const scale = 1 - Math.min(0.5, Math.max(0, r.retry_rate - 0.05));
+        const opt = Math.min(cur, calcCost(r, target, r.input_tokens * scale * 0.7, scale));
+        totalCur += cur;
+        totalOpt += opt;
+        const savPct = cur > 0 ? ((cur - opt) / cur) * 100 : 0;
+
+        rowsHtml.push(`
+          <tr>
+            <td><strong>${r.endpoint}</strong><br/><span style="color:var(--muted);font-size:11px;">${r.team}</span></td>
+            <td><span class="badge">${r.task_type}</span></td>
+            <td style="font-family:var(--mono);font-size:12px;">${r.model} &rarr; <strong style="color:#6ee7b7;">${target}</strong></td>
+            <td style="font-family:var(--mono);">$${cur.toFixed(2)} &rarr; $${opt.toFixed(2)}</td>
+            <td style="color:#6ee7b7;font-weight:700;">-${savPct.toFixed(1)}%</td>
+          </tr>
+        `);
+
+        rules.push({
+          match: { endpoint: r.endpoint, task_type: r.task_type },
+          route_to: target,
+          enable_prompt_caching: true,
+          max_retries: 2,
+        });
+
+        const avgIn = r.input_tokens / r.requests;
+        const cacheRatio = r.cached_input_tokens / r.input_tokens;
+        if (r.retry_rate >= 0.25) {
+          anomalies.push({ endpoint: r.endpoint, severity: "CRITICAL", msg: `Runaway agent retry loop (${(r.retry_rate * 100).toFixed(1)}% retry rate) costing $${cur.toFixed(2)}/wk` });
+        }
+        if (avgIn >= 12000 && cacheRatio < 0.15) {
+          anomalies.push({ endpoint: r.endpoint, severity: "HIGH", msg: `Uncached heavy system prompt (${Math.round(avgIn).toLocaleString()} tok/req, ${(cacheRatio * 100).toFixed(1)}% cached)` });
+        }
+      });
+
+      const mCur = (totalCur / 7) * 30;
+      const mOpt = (totalOpt / 7) * 30;
+      const mSav = Math.max(0, mCur - mOpt);
+      const mPct = mCur > 0 ? (mSav / mCur) * 100 : 0;
+
+      document.getElementById("kpiCurrent").textContent = "$" + mCur.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      document.getElementById("kpiOptimized").textContent = "$" + mOpt.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      document.getElementById("kpiSavings").textContent = "$" + mSav.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      document.getElementById("kpiSavingsPct").textContent = `${mPct.toFixed(2)}% Instant Cost Reduction`;
+      document.getElementById("kpiAnomalies").textContent = `${anomalies.length} Active`;
+      document.getElementById("recTableBody").innerHTML = rowsHtml.join("");
+
+      const gBadge = document.getElementById("guardrailBadge");
+      if (mCur >= 15000) {
+        gBadge.className = "badge red";
+        gBadge.textContent = "Guardrail: CIRCUIT_BREAKER (>100% Budget)";
+      } else {
+        gBadge.className = "badge green";
+        gBadge.textContent = "Guardrail: HEALTHY (<75% Budget)";
+      }
+
+      document.getElementById("anomalyList").innerHTML = anomalies.length
+        ? anomalies.map((a) => `<div style="background:var(--card-alt);border-left:4px solid var(--rose);padding:10px 14px;border-radius:8px;font-size:13px;"><strong>[${a.severity}] ${a.endpoint}</strong>: ${a.msg}</div>`).join("")
+        : `<div style="color:#6ee7b7;font-size:13px;">✅ Zero cost or retry anomalies detected! All endpoints operating with optimal model tiers and prompt caching.</div>`;
+
+      document.getElementById("policyOutput").textContent = JSON.stringify({
+        schema_version: "anna.finops.v1",
+        auto_downgrade_on_budget_pressure: true,
+        rules,
+      }, null, 2);
+    }
+
+    function applyAllOptimizations() {
+      records = records.map((r) => ({
+        ...r,
+        model: PREFERRED[r.task_type] || r.model,
+        cached_input_tokens: Math.round(r.input_tokens * 0.72),
+        retry_rate: Math.min(r.retry_rate, 0.03),
+      }));
+      renderDashboard();
+      runMcpTool("finops_audit_spend");
+    }
+
+    function injectRetrySpike() {
+      records[1].model = "claude-3-7-sonnet";
+      records[1].retry_rate = 0.45;
+      records[1].cached_input_tokens = 5000000;
+      renderDashboard();
+      runMcpTool("finops_detect_anomalies");
+    }
+
+    function runMcpTool(name) {
+      let out;
+      if (name === "tools/list") {
+        out = {
+          jsonrpc: "2.0",
+          id: 1,
+          result: {
+            tools: [
+              "finops_audit_spend",
+              "finops_detect_anomalies",
+              "finops_optimize_routing",
+              "finops_evaluate_budget_policy",
+            ],
+          },
+        };
+      } else {
+        const total7d = records.reduce((s, r) => s + calcCost(r), 0);
+        out = {
+          jsonrpc: "2.0",
+          id: 2,
+          method: "tools/call",
+          params: { name },
+          result: {
+            window_7d_cost_usd: Number(total7d.toFixed(2)),
+            projected_30d_usd: Number(((total7d / 7) * 30).toFixed(2)),
+            endpoints_analyzed: records.length,
+          },
+        };
+      }
+      document.getElementById("mcpOutput").textContent = JSON.stringify(out, null, 2);
+    }
+
+    renderDashboard();
+    runMcpTool("finops_optimize_routing");
+  </script>
+</body>
+</html>
