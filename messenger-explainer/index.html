@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anna AI Messenger — Visual Architecture &amp; 45s Explainer Walkthrough</title>
+  <style>
+    :root {
+      --bg: #070b14;
+      --panel: #0f172a;
+      --card: #162038;
+      --border: #263554;
+      --cyan: #38bdf8;
+      --emerald: #34d399;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 64px;
+    }
+    header {
+      background: linear-gradient(135deg, #091326 0%, #0d2147 60%, #0a1931 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 32px;
+      text-align: center;
+    }
+    .pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      color: var(--cyan);
+      background: rgba(15, 23, 42, 0.85);
+      margin-bottom: 12px;
+    }
+    h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; }
+    .sub { color: var(--muted); font-size: 14.5px; max-width: 760px; margin: 8px auto 0; }
+    .container {
+      max-width: 1120px;
+      margin: 28px auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .notice {
+      background: rgba(14, 116, 144, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 13px;
+      color: #e2e8f0;
+    }
+    .notice a, .cta-link { color: var(--cyan); font-weight: 700; text-decoration: none; }
+    .notice a:hover, .cta-link:hover { text-decoration: underline; }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 24px;
+    }
+    h2 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+    video {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #000;
+      display: block;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
+    }
+    .diagram-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+    }
+    .diagram-card img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .diagram-caption { font-size: 12.5px; color: var(--muted); }
+    .cta-box {
+      text-align: center;
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.18), rgba(52, 211, 153, 0.12));
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      border-radius: 14px;
+      padding: 24px;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 11px 22px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #0284c7, #0ea5e9);
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="pill">Visual Architecture &amp; 45s 1080p Explainer</div>
+    <h1>Anna AI Messenger: Humans Manage Anna, Anna Manages the AI</h1>
+    <p class="sub">
+      Conceptual &amp; architectural overview of <strong>Anna AI Messenger</strong> by
+      <strong>Causis Research</strong> — an AI-native workspace designed for humans and specialized AI colleagues to collaborate with human-in-the-loop approvals.
+    </p>
+  </header>
+
+  <main class="container">
+    <div class="notice">
+      <strong>ℹ️ Private Preview Attribution Note:</strong>
+      Anna AI Messenger is built by <a href="https://causisresearch.com/" target="_blank" rel="noopener">Causis Research</a> (exploring new architectures &amp; continuous learning) and is currently in <strong>private preview</strong>. This independent explainer illustrates the publicly shared coordination architecture and links directly to the official waitlist at <a href="https://annaos.ai/" target="_blank" rel="noopener">annaos.ai</a>.
+    </div>
+
+    <section class="panel">
+      <h2>🎬 Full 45-Second 1080p Animated Explainer Video</h2>
+      <video controls preload="metadata">
+        <source src="assets/anna_ai_messenger_explainer.mp4" type="video/mp4" />
+        Your browser does not support HTML5 video.
+      </video>
+      <p style="font-size: 12.5px; color: var(--muted); margin-top: 8px;">
+        1920×1080 H.264 MP4 • Full 45.00s runtime • Direct file:
+        <a class="cta-link" href="assets/anna_ai_messenger_explainer.mp4">anna_ai_messenger_explainer.mp4</a>
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>📐 High-Resolution 1080p Coordination Diagrams</h2>
+      <div class="grid-2">
+        <div class="diagram-card">
+          <img src="assets/anna_1_chaos_vs_unified.png" alt="Fragmented AI Tool-Switching vs Anna AI Messenger" loading="lazy" />
+          <div class="diagram-caption">
+            <strong>Diagram 1:</strong> Moving from fragmented multi-tab AI copy-paste routing to a unified AI-native messenger where humans manage Anna and Anna coordinates the AI.
+          </div>
+        </div>
+        <div class="diagram-card">
+          <img src="assets/anna_2_coordination_loop.png" alt="Anna AI Messenger Human-in-the-Loop Coordination Loop" loading="lazy" />
+          <div class="diagram-caption">
+            <strong>Diagram 2:</strong> 3-step loop — (1) Share Goal &amp; Constraints ➔ (2) Anna Coordinates Specialized AI Colleagues ➔ (3) Human-in-the-Loop Decisions &amp; Approvals.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-box">
+      <h2 style="margin-bottom: 6px;">Explore Anna AI Messenger &amp; Join the Official Private Preview Waitlist</h2>
+      <p style="font-size: 13.5px; color: var(--muted);">
+        Built by Causis Research (<code>@annaos_ai</code> · <code>@notinvariant</code> · <code>@causisresearch</code>)
+      </p>
+      <a class="btn" href="https://annaos.ai/" target="_blank" rel="noopener">Join the Official Waitlist at annaos.ai →</a>
+    </section>
+  </main>
+</body>
+</html>
