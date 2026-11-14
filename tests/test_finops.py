@@ -95,6 +95,23 @@ class TestAnnaCloudFinOps(unittest.TestCase):
         self.assertIn("optimization", report)
         self.assertEqual(report["guardrail"]["status"], "CIRCUIT_BREAKER")
 
+    def test_7_mcp_handshake_notifications_ping_and_is_error_handling(self) -> None:
+        notif = handle_mcp_jsonrpc({"jsonrpc": "2.0", "id": None, "method": "notifications/initialized"})
+        self.assertEqual(notif["result"], {})
+
+        ping = handle_mcp_jsonrpc({"jsonrpc": "2.0", "id": 99, "method": "ping"})
+        self.assertEqual(ping["result"], {})
+
+        bad_arg = handle_mcp_jsonrpc(
+            {
+                "jsonrpc": "2.0",
+                "id": 100,
+                "method": "tools/call",
+                "params": {"name": "finops_audit_spend", "arguments": {"window_days": -2}},
+            }
+        )
+        self.assertTrue(bad_arg["result"]["isError"])
+
 
 if __name__ == "__main__":
     unittest.main()

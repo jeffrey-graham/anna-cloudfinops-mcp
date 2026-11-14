@@ -114,6 +114,13 @@ def handle_mcp_jsonrpc(request: Dict[str, Any]) -> Dict[str, Any]:
             },
         }
 
+    if method in ("notifications/initialized", "initialized", "ping"):
+        return {
+            "jsonrpc": "2.0",
+            "id": req_id,
+            "result": {},
+        }
+
     if method == "tools/list":
         return {
             "jsonrpc": "2.0",
@@ -162,25 +169,37 @@ def handle_mcp_jsonrpc(request: Dict[str, Any]) -> Dict[str, Any]:
     if method == "tools/call":
         tool_name = params.get("name", "")
         args = params.get("arguments") or {}
-        records = args.get("records") or DEFAULT_DEMO_RECORDS
-        window_days = float(args.get("window_days", 7.0))
+        try:
+            records = args.get("records") or DEFAULT_DEMO_RECORDS
+            window_days = float(args.get("window_days", 7.0))
+            if window_days <= 0:
+                raise ValueError("window_days must be > 0")
 
-        if tool_name == "finops_audit_spend":
-            payload = audit_spend_logs(records, window_days=window_days)
-        elif tool_name == "finops_detect_anomalies":
-            z_thresh = float(args.get("z_threshold", 1.8))
-            payload = {"anomalies": detect_cost_anomalies(records, z_threshold=z_thresh)}
-        elif tool_name == "finops_optimize_routing":
-            payload = recommend_routing_optimizations(records, window_days=window_days)
-        elif tool_name == "finops_evaluate_budget_policy":
-            proj = float(args.get("projected_monthly_usd", 18000.0))
-            limit = float(args.get("monthly_budget_limit_usd", 15000.0))
-            payload = evaluate_budget_guardrails(proj, limit)
-        else:
+            if tool_name == "finops_audit_spend":
+                payload = audit_spend_logs(records, window_days=window_days)
+            elif tool_name == "finops_detect_anomalies":
+                z_thresh = float(args.get("z_threshold", 1.8))
+                payload = {"anomalies": detect_cost_anomalies(records, z_threshold=z_thresh)}
+            elif tool_name == "finops_optimize_routing":
+                payload = recommend_routing_optimizations(records, window_days=window_days)
+            elif tool_name == "finops_evaluate_budget_policy":
+                proj = float(args.get("projected_monthly_usd", 18000.0))
+                limit = float(args.get("monthly_budget_limit_usd", 15000.0))
+                payload = evaluate_budget_guardrails(proj, limit)
+            else:
+                return {
+                    "jsonrpc": "2.0",
+                    "id": req_id,
+                    "error": {"code": -32601, "message": f"Unknown MCP tool: {tool_name}"},
+                }
+        except (ValueError, TypeError, KeyError) as exc:
             return {
                 "jsonrpc": "2.0",
                 "id": req_id,
-                "error": {"code": -32601, "message": f"Unknown MCP tool: {tool_name}"},
+                "result": {
+                    "content": [{"type": "text", "text": f"Tool execution error: {exc}"}],
+                    "isError": True,
+                },
             }
 
         return {
